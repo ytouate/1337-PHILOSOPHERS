@@ -6,13 +6,13 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 11:44:37 by ytouate           #+#    #+#             */
-/*   Updated: 2022/03/29 10:22:57 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/03/29 11:08:01 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	data_init(t_philos_data *data, int ac, char **av)
+void	data_init(t_args *data, int ac, char **av)
 {
 	if (ac != 5 && ac != 6)
 		exit(write(2, "Invalid Arguments\n", 19));
@@ -27,7 +27,7 @@ void	data_init(t_philos_data *data, int ac, char **av)
 		data->meals_count = INT_MIN;
 }
 
-int is_int(char *s)
+int	is_int(char *s)
 {
 	int	i;
 
@@ -38,7 +38,7 @@ int is_int(char *s)
 	return (1);
 }
 
-void check_args(int ac, char **av)
+void	check_args(int ac, char **av)
 {
 	int	i;
 
@@ -53,20 +53,23 @@ void check_args(int ac, char **av)
 		exit(write(1, "The number of arguments is invalid\n", 36));
 }
 
-void *philo_routine()
+void	*philo_routine(void *a)
 {
+	(void)a;
 	printf("Hello world\n");
 	return (0);
 }
+
 void thread_join(t_list *philos)
 {
 	while (philos)
 	{
-		pthread_join(philos->id, NULL);
+		pthread_join(philos->val.id, NULL);
 		philos = philos->next;
 	}
 }
-t_list	*thread_init(t_philos_data data, pthread_t *p)
+
+t_list	*thread_init(t_args data, pthread_t *p)
 {
 	t_list	*philos;
 	int		i;
@@ -75,23 +78,22 @@ t_list	*thread_init(t_philos_data data, pthread_t *p)
 	i = 1;
 	j = 0;
 	pthread_create(&p[j], NULL, philo_routine, NULL);
-	philos = lst_new(data, i, p[j]);
+	philos = lst_new(i, p[j]);
 	while (++i <= data.num_of_philos)
 	{
 		pthread_create(&p[++j], NULL, philo_routine, NULL);
-		lst_add_back(&philos, lst_new(data, i, p[j]));
+		lst_add_back(&philos, lst_new(i, p[j]));
 	}
 	thread_join(philos);
 	return (philos);
 }
 
-
 int	main(int ac, char **av)
 {
-	t_philos_data	data;
-	t_list	*philos;
-	pthread_t	*threads;
-	
+	t_list			*philos;
+	pthread_t		*threads;
+	t_args			data;
+
 	check_args(ac, av);
 	data_init(&data, ac, av);
 	threads = malloc(sizeof(pthread_t) * data.num_of_philos);
@@ -99,4 +101,12 @@ int	main(int ac, char **av)
 		return (1);
 	memset(threads, 0, sizeof(pthread_t) * data.num_of_philos);
 	philos = thread_init(data, threads);
+	while (philos)
+	{
+		printf("im philo %d\n", philos->val.index);
+		printf("my id is %llu\n", (unsigned long long)philos->val.id);
+		printf("my fork  id is %d\n", philos->val.fork_id);
+		printf("the meals i have eaten are %d\n", philos->val.eaten_meals);
+		philos = philos-> next;
+	}
 }

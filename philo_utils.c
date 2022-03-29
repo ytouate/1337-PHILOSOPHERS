@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 17:53:08 by ytouate           #+#    #+#             */
-/*   Updated: 2022/03/29 09:42:35 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/03/29 11:08:53 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,30 +40,28 @@ int	ft_atoi(const char *str)
 	return ((((int)result) * sign));
 }
 
-t_list *lst_new(t_philos_data data, int index, pthread_t id)
+t_list	*lst_new(int index, pthread_t id)
 {
 	t_list	*new;
+
 	new = malloc(sizeof(t_list));
 	if (!new)
 		return (NULL);
-	new->index = index;
-	new->id = id;
-    new->data = data;
+	new->val.index = index;
+	new->val.fork_id = index;
+	new->val.eaten_meals = 0;
+	new->val.id = id;
 	new->next = NULL;
 	return (new);
 }
 
-void	lst_add_front(t_list **origin, t_list *new)
+void	lst_add_back(t_list **origin, t_list *new)
 {
-	new ->next = *origin;
-	*origin = new;
-}
-void    lst_add_back(t_list **origin, t_list *new)
-{
-    t_list  *p;
-    p = *origin;
-    while ((p)->next)
-        (p) = (p)->next;
-    (p)->next = new;
-    new->next = NULL;
+	t_list	*p;
+
+	p = *origin;
+	while (p->next)
+		p = p->next;
+	p->next = new;
+	new->next = NULL;
 }
