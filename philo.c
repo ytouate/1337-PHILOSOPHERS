@@ -6,39 +6,11 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 11:44:37 by ytouate           #+#    #+#             */
-/*   Updated: 2022/03/28 17:45:17 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/03/29 10:22:57 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-int	ft_atoi(const char *str)
-{
-	int				i;
-	int				sign;
-	unsigned long	result;
-
-	i = 0;
-	sign = 1;
-	result = 0;
-	while ((str[i] == ' ') || (str[i] == '\t') || (str[i] == '\r')
-		|| (str[i] == '\n') || (str[i] == '\v') || (str[i] == '\f'))
-		i++;
-	if (str[i] == '+' || str[i] == '-')
-		if (str[i++] == '-')
-			sign = -1;
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		if (result > 9223372036854775807)
-		{
-			if (sign == -1)
-				return (0);
-			return (-1);
-		}
-		result = (10 * result) + str[i++] - '0';
-	}
-	return ((((int)result) * sign));
-}
 
 void	data_init(t_philos_data *data, int ac, char **av)
 {
@@ -53,23 +25,6 @@ void	data_init(t_philos_data *data, int ac, char **av)
 		data->meals_count = ft_atoi(av[5]);
 	else
 		data->meals_count = INT_MIN;
-}
-
-t_list *lst_new(int index)
-{
-	t_list	*new;
-	new = malloc(sizeof(t_list));
-	if (!new)
-		return (NULL);
-	new->val = index;
-	new->next = NULL;
-	return (new);
-}
-
-void	lst_add_front(t_list **origin, t_list *new)
-{
-	new ->next = *origin;
-	*origin = new;
 }
 
 int is_int(char *s)
@@ -97,10 +52,51 @@ void check_args(int ac, char **av)
 	else
 		exit(write(1, "The number of arguments is invalid\n", 36));
 }
+
+void *philo_routine()
+{
+	printf("Hello world\n");
+	return (0);
+}
+void thread_join(t_list *philos)
+{
+	while (philos)
+	{
+		pthread_join(philos->id, NULL);
+		philos = philos->next;
+	}
+}
+t_list	*thread_init(t_philos_data data, pthread_t *p)
+{
+	t_list	*philos;
+	int		i;
+	int		j;
+
+	i = 1;
+	j = 0;
+	pthread_create(&p[j], NULL, philo_routine, NULL);
+	philos = lst_new(data, i, p[j]);
+	while (++i <= data.num_of_philos)
+	{
+		pthread_create(&p[++j], NULL, philo_routine, NULL);
+		lst_add_back(&philos, lst_new(data, i, p[j]));
+	}
+	thread_join(philos);
+	return (philos);
+}
+
+
 int	main(int ac, char **av)
 {
 	t_philos_data	data;
+	t_list	*philos;
+	pthread_t	*threads;
+	
 	check_args(ac, av);
 	data_init(&data, ac, av);
-	
+	threads = malloc(sizeof(pthread_t) * data.num_of_philos);
+	if (!threads)
+		return (1);
+	memset(threads, 0, sizeof(pthread_t) * data.num_of_philos);
+	philos = thread_init(data, threads);
 }
