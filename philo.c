@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 11:44:37 by ytouate           #+#    #+#             */
-/*   Updated: 2022/03/29 11:08:01 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/03/31 10:17:49 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,11 @@ void	check_args(int ac, char **av)
 
 void	*philo_routine(void *a)
 {
-	(void)a;
-	printf("Hello world\n");
+	t_list *b;
+	b= a;
+	if (b == NULL)
+		return 0;
+	printf("%d\n", (int)b->val.id);
 	return (0);
 }
 
@@ -71,18 +74,19 @@ void thread_join(t_list *philos)
 
 t_list	*thread_init(t_args data, pthread_t *p)
 {
-	t_list	*philos;
+	t_list	*philos = NULL;
 	int		i;
+
 	int		j;
 
-	i = 1;
+	i = 0;
 	j = 0;
-	pthread_create(&p[j], NULL, philo_routine, NULL);
-	philos = lst_new(i, p[j]);
-	while (++i <= data.num_of_philos)
+	pthread_create(&p[j], NULL, philo_routine, philos);
+	philos = lst_new(i + 1, p[j]);
+	while (++i < data.num_of_philos)
 	{
-		pthread_create(&p[++j], NULL, philo_routine, NULL);
-		lst_add_back(&philos, lst_new(i, p[j]));
+		pthread_create(&p[++j], NULL, philo_routine, philos);
+		lst_add_back(&philos, lst_new(i + 1, p[j]));
 	}
 	thread_join(philos);
 	return (philos);
