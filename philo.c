@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 11:44:37 by ytouate           #+#    #+#             */
-/*   Updated: 2022/03/31 10:17:49 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/01 13:10:58 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,19 @@ void	check_args(int ac, char **av)
 
 void	*philo_routine(void *a)
 {
-	t_list *b;
-	b= a;
-	if (b == NULL)
-		return 0;
-	printf("%d\n", (int)b->val.id);
+	(void)a;
 	return (0);
 }
 
 void thread_join(t_list *philos)
 {
+	int flag;
+	flag = 0;
 	while (philos)
 	{
-		pthread_join(philos->val.id, NULL);
+		flag = pthread_join(philos->val.id, NULL);
+		if (flag == -1)
+			exit(write(2, "an error occured while joining threads \n", 41));
 		philos = philos->next;
 	}
 }
@@ -76,16 +76,21 @@ t_list	*thread_init(t_args data, pthread_t *p)
 {
 	t_list	*philos = NULL;
 	int		i;
-
+	int		flag;
 	int		j;
 
 	i = 0;
 	j = 0;
-	pthread_create(&p[j], NULL, philo_routine, philos);
+	flag = 0;
+	flag = pthread_create(&p[j], NULL, philo_routine, NULL);
+	if (flag == -1)
+		exit(write(2, "an error occured while creating threads\n", 41));
 	philos = lst_new(i + 1, p[j]);
 	while (++i < data.num_of_philos)
 	{
-		pthread_create(&p[++j], NULL, philo_routine, philos);
+		flag = pthread_create(&p[++j], NULL, philo_routine, NULL);
+		if (flag == -1)
+			exit(write(2, "an error occured while creating threads\n", 41));
 		lst_add_back(&philos, lst_new(i + 1, p[j]));
 	}
 	thread_join(philos);
