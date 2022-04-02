@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 11:44:37 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/01 13:10:58 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/02 11:53:15 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,69 +53,93 @@ void	check_args(int ac, char **av)
 		exit(write(1, "The number of arguments is invalid\n", 36));
 }
 
-void	*philo_routine(void *a)
+void *routine(void *a)
 {
 	(void)a;
+	// printf("Hello form thread %d\n", *(int *)a);
+	// free(a);
 	return (0);
 }
 
-void thread_join(t_list *philos)
+t_fork	*init_forks(t_args	arg)
 {
+	t_fork			*forks;
+	pthread_mutex_t	*p;
+	int				flag;
+	int				i;
+	
+	i = 0;
+	p = malloc(sizeof(pthread_mutex_t) * arg.num_of_forks);
+	if (!p)
+		return (NULL);
+	flag = pthread_mutex_init(&p[i], NULL);
+	if (flag == -1)
+		exit(write(2, "an error occured while initializing a mutex\n", 45));
+	forks = add_fork(i + 1, p[i]);
+	arg.num_of_forks--;
+	while (arg.num_of_forks)
+	{
+		flag = pthread_mutex_init(&p[++i], NULL);
+		if (flag == -1)
+			exit(write(2, "an error occured while initializing a mutex\n", 45));
+		append_fork(&forks, add_fork(i + 1, p[i]));
+		arg.num_of_forks--;
+	}
+	return (forks);
+}
+
+t_philo	*init_philos(t_args	arg)
+{
+	int		i;
+	t_philo	*philos;
+	pthread_t	*p;
 	int flag;
-	flag = 0;
+	
+	i = 0;
+	p = malloc(sizeof(pthread_t) * arg.num_of_philos);
+	if (!p)
+		exit(1);
+	
+	flag = pthread_create(&p[i], NULL, routine, NULL);
+	if (flag == -1)
+		exit(write(2, "an error occured while creating threads\n", 41));
+	philos = malloc(sizeof(t_philo) * arg.num_of_philos);
+	philos->id = p[i];
+	philos->index = i + 1;
+	arg.num_of_philos--;
+	while (arg.num_of_philos)
+	{
+		flag = pthread_create(&p[++i], NULL, routine, NULL);
+		if (flag == -1)
+			exit(write(2, "an error occured while creating threads\n", 41));
+		append_philo(&philos, add_philo(i + 1, p[i]));
+		arg.num_of_philos--;
+	}
+	return (philos);
+}
+
+void join_philos(t_philo	*philos)
+{
 	while (philos)
 	{
-		flag = pthread_join(philos->val.id, NULL);
-		if (flag == -1)
-			exit(write(2, "an error occured while joining threads \n", 41));
+		pthread_join(philos->id, NULL);
 		philos = philos->next;
 	}
 }
 
-t_list	*thread_init(t_args data, pthread_t *p)
-{
-	t_list	*philos = NULL;
-	int		i;
-	int		flag;
-	int		j;
-
-	i = 0;
-	j = 0;
-	flag = 0;
-	flag = pthread_create(&p[j], NULL, philo_routine, NULL);
-	if (flag == -1)
-		exit(write(2, "an error occured while creating threads\n", 41));
-	philos = lst_new(i + 1, p[j]);
-	while (++i < data.num_of_philos)
-	{
-		flag = pthread_create(&p[++j], NULL, philo_routine, NULL);
-		if (flag == -1)
-			exit(write(2, "an error occured while creating threads\n", 41));
-		lst_add_back(&philos, lst_new(i + 1, p[j]));
-	}
-	thread_join(philos);
-	return (philos);
-}
-
 int	main(int ac, char **av)
 {
-	t_list			*philos;
-	pthread_t		*threads;
+	t_philo			*philos;
+	t_fork			*forks;
 	t_args			data;
+	int				i;
 
+	i = 0;
 	check_args(ac, av);
 	data_init(&data, ac, av);
-	threads = malloc(sizeof(pthread_t) * data.num_of_philos);
-	if (!threads)
-		return (1);
-	memset(threads, 0, sizeof(pthread_t) * data.num_of_philos);
-	philos = thread_init(data, threads);
-	while (philos)
-	{
-		printf("im philo %d\n", philos->val.index);
-		printf("my id is %llu\n", (unsigned long long)philos->val.id);
-		printf("my fork  id is %d\n", philos->val.fork_id);
-		printf("the meals i have eaten are %d\n", philos->val.eaten_meals);
-		philos = philos-> next;
-	}
+	
+	forks = init_forks(data);
+	philos = init_philos(data);
+	join_philos(philos);
+	memset(philos, 0, sizeof(pthread_t) * data.num_of_philos);
 }

@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 11:42:23 by ytouate           #+#    #+#             */
-/*   Updated: 2022/03/29 11:09:41 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/02 10:18:40 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@
 # include <unistd.h>
 # include <limits.h>
 
+typedef	struct fork_s{
+	int index;
+	pthread_mutex_t	id;
+	struct fork_s 	*next;
+}t_fork;
+
 typedef struct args_s{
 	int	num_of_philos;
 	int	num_of_forks;
@@ -30,21 +36,15 @@ typedef struct args_s{
 	int	meals_count;
 }t_args;
 
-typedef struct philo_data{
-	int			eaten_meals;
-	int			fork_id;
-	pthread_t	id;
+typedef struct philo_s{
 	int			index;
-}t_philo_data;
-
-typedef struct s_list{
-	t_philo_data		val;
-	struct s_list		*next;
-}t_list;
+	pthread_t	id;
+	struct philo_s	*next;	
+}t_philo;
 
 int		ft_atoi(const char *str);
-t_list	*lst_new(int index, pthread_t id);
-void	lst_add_front(t_list **origin, t_list *new);
-void	lst_add_back(t_list **origin, t_list *new);
-
+t_fork	*add_fork(int index, pthread_mutex_t id);
+void	append_fork(t_fork **origin, t_fork *new);
+t_philo	*add_philo(int index, pthread_t id);
+void	append_philo(t_philo **origin, t_philo *new);
 #endif

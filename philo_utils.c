@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 17:53:08 by ytouate           #+#    #+#             */
-/*   Updated: 2022/03/29 11:08:53 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/02 10:18:36 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,21 @@ int	ft_atoi(const char *str)
 	return ((((int)result) * sign));
 }
 
-t_list	*lst_new(int index, pthread_t id)
+t_fork	*add_fork(int index, pthread_mutex_t id)
 {
-	t_list	*new;
+	t_fork	*new;
 
-	new = malloc(sizeof(t_list));
+	new = malloc(sizeof(t_fork));
 	if (!new)
 		return (NULL);
-	new->val.index = index;
-	new->val.fork_id = index;
-	new->val.eaten_meals = 0;
-	new->val.id = id;
-	new->next = NULL;
+	new->index = index;
+	new->id = id;
 	return (new);
 }
 
-void	lst_add_back(t_list **origin, t_list *new)
+void	append_fork(t_fork **origin, t_fork *new)
 {
-	t_list	*p;
+	t_fork	*p;
 
 	p = *origin;
 	while (p->next)
@@ -65,3 +62,27 @@ void	lst_add_back(t_list **origin, t_list *new)
 	p->next = new;
 	new->next = NULL;
 }
+
+t_philo	*add_philo(int index, pthread_t id)
+{
+	t_philo	*new;
+
+	new = malloc(sizeof(t_philo));
+	if (!new)
+		return (NULL);
+	new->index = index;
+	new->id = id;
+	return (new);
+}
+
+void	append_philo(t_philo **origin, t_philo *new)
+{
+	t_philo	*p;
+
+	p = *origin;
+	while (p->next)
+		p = p->next;
+	p->next = new;
+	new->next = NULL;
+}
+
