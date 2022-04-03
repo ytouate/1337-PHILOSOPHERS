@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 11:42:23 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/03 11:58:28 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/03 20:53:48 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <string.h>
+# include <time.h>
 # include <stdio.h>
 # include <unistd.h>
 # include <limits.h>
@@ -36,8 +37,18 @@ typedef struct args_s{
 	int	meals_count;
 }t_args;
 
+typedef struct status_s{
+	int	is_eating;
+	int	is_thinking;
+	int	is_sleeping;
+	int	is_hungry;
+}t_status;
+
 typedef struct philo_s{
 	int			index;
+	t_status	stats;
+	int			left_fork;
+	int			right_fork;
 	pthread_t	id;
 }t_philo;
 
@@ -57,4 +68,5 @@ t_fork			*init_forks(t_args	arg);
 t_single_philo	*init_philos(t_args	arg, t_fork *f);
 t_single_philo	init_needed_data(t_fork *f, t_args args,
 					t_single_philo	*philo, int i);
+void	join_philos(t_single_philo	*philos, t_args data);
 #endif

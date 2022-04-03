@@ -6,13 +6,18 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 11:54:49 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/03 11:57:35 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/03 21:59:34 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	*routine(void *a)
+void	ft_think(t_single_philo	philo);
+void	ft_pick_forks(t_single_philo philo);
+void	ft_eat(t_single_philo philo);
+void	ft_sleep(t_single_philo philo);
+
+void	*ft_philosophers(void *a)
 {
 	t_single_philo	*temp;
 
@@ -25,6 +30,8 @@ void	data_init(t_args *data, int ac, char **av)
 	if (ac != 5 && ac != 6)
 		exit(write(2, "Invalid Arguments\n", 19));
 	data->num_of_philos = ft_atoi(av[1]);
+	if (data->num_of_philos == 0)
+		exit(write(2, "Invalid number of philosophers\n", 32));
 	data->num_of_forks = data->num_of_philos;
 	data->time_to_die = ft_atoi(av[2]);
 	data->time_to_eat = ft_atoi(av[3]);
@@ -38,29 +45,18 @@ void	data_init(t_args *data, int ac, char **av)
 t_fork	*init_forks(t_args	arg)
 {
 	t_fork			*forks;
-	pthread_mutex_t	*p;
-	int				flag;
 	int				i;
 
 	i = 0;
 	forks = malloc(sizeof(t_fork) * arg.num_of_forks);
-	p = malloc(sizeof(pthread_mutex_t) * arg.num_of_forks);
-	if (!p || !forks)
-		return (NULL);
-	flag = pthread_mutex_init(&p[i], NULL);
-	if (flag == -1)
+	if (pthread_mutex_init(&forks[i].id, NULL) == -1)
 		exit(write(2, "an error occured while initializing a mutex\n", 45));
-	forks[i].id = p[i];
-	forks[i].index = i + 1;
-	arg.num_of_forks--;
-	while (arg.num_of_forks)
+	while (i < arg.num_of_forks)
 	{
-		flag = pthread_mutex_init(&p[++i], NULL);
-		if (flag == -1)
+		if (pthread_mutex_init(&forks[i].id, NULL) == -1)
 			exit(write(2, "an error occured while initializing a mutex\n", 45));
-		forks[i].id = p[i];
-		forks[i].index = i + 1;
-		arg.num_of_forks--;
+		forks[i].index = i;
+		i++;
 	}
 	return (forks);
 }
@@ -68,33 +64,34 @@ t_fork	*init_forks(t_args	arg)
 t_single_philo	*init_philos(t_args	arg, t_fork *f)
 {
 	int				i;
-	int				flag;
 	t_single_philo	*n;
 
 	i = 0;
 	n = malloc(sizeof(t_single_philo) * arg.num_of_philos);
 	if (!n)
 		exit(write(2, "an error occured allocating memory\n", 36));
-	n[i] = init_needed_data(f, arg, n, i);
-	flag = pthread_create(&n->p.id, NULL, routine, &n[i]);
-	if (flag == -1)
-		exit(write(2, "an error occured while creating threads\n", 41));
-	arg.num_of_philos--;
-	while (arg.num_of_philos)
+	memset(n, 0, sizeof(t_single_philo) * arg.num_of_forks);
+	while (i < arg.num_of_philos)
 	{
-		++i;
 		n[i] = init_needed_data(f, arg, n, i);
-		flag = pthread_create(&n->p.id, NULL, routine, &n[i]);
-		if (flag == -1)
+		if (pthread_create(&n[i].p.id, NULL, ft_philosophers, &n[i]) == -1)
 			exit(write(2, "an error occured while creating threads\n", 41));
-		arg.num_of_philos--;
+		i++;
 	}
+	join_philos(n, arg);
 	return (n);
 }
 
-t_single_philo	init_needed_data(t_fork *f, t_args args, t_single_philo	*philo, int i)
+t_single_philo	init_needed_data(t_fork *f, t_args args,
+				t_single_philo	*philo, int i)
 {
 	philo[i].d = args;
+	philo[i].p.stats.is_eating = 0;
+	philo[i].p.stats.is_hungry = 0;
+	philo[i].p.stats.is_sleeping = 0;
+	philo[i].p.stats.is_thinking = 0;
+	philo[i].p.left_fork = ((i + 1) % args.num_of_forks);
+	philo[i].p.right_fork = i;
 	philo[i].f = f[i];
 	philo[i].f.id = f[i].id;
 	philo[i].j = i;
