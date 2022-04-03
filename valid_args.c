@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 17:38:12 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/02 17:41:36 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/03 11:46:38 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,3 @@ void	check_args(int ac, char **av)
 	else
 		exit(write(1, "The number of arguments is invalid\n", 36));
 }
-
