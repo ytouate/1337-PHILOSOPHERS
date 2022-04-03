@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 11:42:23 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/02 10:18:40 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/02 18:50:46 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 typedef	struct fork_s{
 	int index;
 	pthread_mutex_t	id;
-	struct fork_s 	*next;
+	int flag;
 }t_fork;
 
 typedef struct args_s{
@@ -39,12 +39,17 @@ typedef struct args_s{
 typedef struct philo_s{
 	int			index;
 	pthread_t	id;
-	struct philo_s	*next;	
 }t_philo;
 
+typedef struct signle_philo
+{
+	t_philo	p;
+	int		j;
+	t_fork	f;
+	t_args	d;
+}single_philo;
+
 int		ft_atoi(const char *str);
-t_fork	*add_fork(int index, pthread_mutex_t id);
-void	append_fork(t_fork **origin, t_fork *new);
-t_philo	*add_philo(int index, pthread_t id);
-void	append_philo(t_philo **origin, t_philo *new);
+int		is_int(char *s);
+void	check_args(int ac, char **av);
 #endif
