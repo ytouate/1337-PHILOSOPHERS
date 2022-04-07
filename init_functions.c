@@ -6,29 +6,39 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 11:54:49 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/03 21:59:34 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/07 22:08:54 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_think(t_single_philo	philo);
-void	ft_pick_forks(t_single_philo philo);
-void	ft_eat(t_single_philo philo);
-void	ft_sleep(t_single_philo philo);
+void	ft_think(t_data	philo);
+void	ft_pick_forks(t_data *philo);
+void	ft_put_down_forks(t_data *philo);
+void	ft_eat(t_data philo);
+void	ft_sleep(t_data philo);
 
 void	*ft_philosophers(void *a)
 {
-	t_single_philo	*temp;
-
-	temp = a;
-	return (temp);
+	t_data	*data = a;
+	while (1)
+	{
+		pthread_mutex_lock(data->fork);
+		printf("philo %d has taken a fork\n", data->j);
+		pthread_mutex_lock(data->next_fork);
+		printf("philo %d has taken a fork\n", data->j);
+		usleep(data->args.time_to_eat * 1000);
+		printf("philo %d is eating\n", data->j);
+		pthread_mutex_unlock(data->fork);
+		pthread_mutex_unlock(data->next_fork);
+		usleep(data->args.time_to_sleep * 1000);
+		printf("philo %d is sleeping\n", data->j);
+	}
+	return (NULL);
 }
 
 void	data_init(t_args *data, int ac, char **av)
 {
-	if (ac != 5 && ac != 6)
-		exit(write(2, "Invalid Arguments\n", 19));
 	data->num_of_philos = ft_atoi(av[1]);
 	if (data->num_of_philos == 0)
 		exit(write(2, "Invalid number of philosophers\n", 32));
@@ -38,64 +48,63 @@ void	data_init(t_args *data, int ac, char **av)
 	data->time_to_sleep = ft_atoi(av[4]);
 	if (ac == 6)
 		data->meals_count = ft_atoi(av[5]);
-	else
-		data->meals_count = INT_MIN;
+	else 
+		data->meals_count = -1;
 }
 
-t_fork	*init_forks(t_args	arg)
+t_data **put_fork(t_args arg)
 {
-	t_fork			*forks;
-	int				i;
-
-	i = 0;
-	forks = malloc(sizeof(t_fork) * arg.num_of_forks);
-	if (pthread_mutex_init(&forks[i].id, NULL) == -1)
-		exit(write(2, "an error occured while initializing a mutex\n", 45));
-	while (i < arg.num_of_forks)
-	{
-		if (pthread_mutex_init(&forks[i].id, NULL) == -1)
-			exit(write(2, "an error occured while initializing a mutex\n", 45));
-		forks[i].index = i;
-		i++;
-	}
-	return (forks);
-}
-
-t_single_philo	*init_philos(t_args	arg, t_fork *f)
-{
-	int				i;
-	t_single_philo	*n;
-
-	i = 0;
-	n = malloc(sizeof(t_single_philo) * arg.num_of_philos);
-	if (!n)
-		exit(write(2, "an error occured allocating memory\n", 36));
-	memset(n, 0, sizeof(t_single_philo) * arg.num_of_forks);
+	int i = 0;
+	t_data **philos = malloc(sizeof(t_data *) * arg.num_of_philos);
+	
 	while (i < arg.num_of_philos)
 	{
-		n[i] = init_needed_data(f, arg, n, i);
-		if (pthread_create(&n[i].p.id, NULL, ft_philosophers, &n[i]) == -1)
-			exit(write(2, "an error occured while creating threads\n", 41));
+		philos[i] = malloc(sizeof(t_data));
+		philos[i]->fork = malloc(sizeof(pthread_mutex_t));
+		pthread_mutex_init(philos[i]->fork, NULL);
 		i++;
 	}
-	join_philos(n, arg);
-	return (n);
+	return (philos);
+}
+t_data **put_next_fork(t_data **data, t_args args)
+{
+	int i= 0;
+	while (i < args.num_of_philos)
+	{
+		data[i]->next_fork = data[(i + 1) % args.num_of_philos]->fork;
+		i++;
+	}
+	return (data);
+}
+t_data	**init_philos(t_args	arg)
+{
+	int				i;
+	t_data			**data;
+	pthread_t		*p;
+	
+	
+	i = 0;
+	
+	data = put_fork(arg);
+	data = put_next_fork(data, arg);
+	p = malloc(sizeof(pthread_t) * arg.num_of_philos);
+	if (!data || !p)
+		exit(write(2, "an error occured allocating memory\n", 36));
+	while (i < arg.num_of_philos)
+	{
+		data[i] = init_needed_data(data, arg, i);
+		if (pthread_create(&p[i], NULL, ft_philosophers, data[i]) == -1)
+			exit(write(2, "an error occured while creating threads\n", 41));
+		i++;
+		usleep(100);
+	}
+	join_philos(p, arg);
+	return (data);
 }
 
-t_single_philo	init_needed_data(t_fork *f, t_args args,
-				t_single_philo	*philo, int i)
+t_data	*init_needed_data(t_data **data, t_args args, int i)
 {
-	philo[i].d = args;
-	philo[i].p.stats.is_eating = 0;
-	philo[i].p.stats.is_hungry = 0;
-	philo[i].p.stats.is_sleeping = 0;
-	philo[i].p.stats.is_thinking = 0;
-	philo[i].p.left_fork = ((i + 1) % args.num_of_forks);
-	philo[i].p.right_fork = i;
-	philo[i].f = f[i];
-	philo[i].f.id = f[i].id;
-	philo[i].j = i;
-	philo[i].p.index = i + 1;
-	philo[i].f.index = i + 1;
-	return (philo[i]);
+	data[i]->args = args;
+	data[i]->j = i + 1;
+	return (data[i]);
 }

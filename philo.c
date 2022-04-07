@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 11:44:37 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/03 23:06:14 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/07 21:42:23 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,11 @@
 
 int	main(int ac, char **av)
 {
-	t_single_philo	*philos;
-	t_fork			*forks;
+	t_data	**philos;
 	t_args			data;
 
 	philos = NULL;
 	check_args(ac, av);
 	data_init(&data, ac, av);
-	forks = init_forks(data);
-	philos = init_philos(data, forks);
-	join_philos(philos, data);
+	philos = init_philos(data);
 }

@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 11:42:23 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/03 20:53:48 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/07 21:42:58 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,21 +52,22 @@ typedef struct philo_s{
 	pthread_t	id;
 }t_philo;
 
-typedef struct signle_philo
+typedef struct data
 {
-	t_philo	p;
-	int		j;
-	t_fork	f;
-	t_args	d;
-}t_single_philo;
+	t_status		status;
+	
+	pthread_mutex_t	*fork;
+	pthread_mutex_t	*next_fork;
+	int				temp;
+	int				j;
+	t_args			args;
+}t_data;
 
 int				ft_atoi(const char *str);
 int				is_int(char *s);
 void			check_args(int ac, char **av);
 void			data_init(t_args *data, int ac, char **av);
-t_fork			*init_forks(t_args	arg);
-t_single_philo	*init_philos(t_args	arg, t_fork *f);
-t_single_philo	init_needed_data(t_fork *f, t_args args,
-					t_single_philo	*philo, int i);
-void	join_philos(t_single_philo	*philos, t_args data);
+t_data	**init_philos( t_args	arg);
+t_data	*init_needed_data(t_data **data, t_args args, int i);
+void	join_philos(pthread_t	*philos, t_args data);
 #endif
