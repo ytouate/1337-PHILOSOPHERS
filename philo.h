@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 11:42:23 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/07 21:42:58 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/08 15:49:16 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ typedef struct philo_s{
 typedef struct data
 {
 	t_status		status;
-	
+	struct timeval			current_time;
+	struct timeval			end_time;
+	pthread_mutex_t			*print_mutex;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	*next_fork;
 	int				temp;

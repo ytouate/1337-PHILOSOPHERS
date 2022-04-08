@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 17:53:08 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/05 21:02:44 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/08 11:58:19 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,9 @@ void	join_philos(pthread_t	*philos, t_args data)
 	i = -1;
 	while (++i < data.num_of_forks)
 		if (pthread_join(philos[i], NULL) == -1)
-			exit(write(2, "an error occured while joining the threads\n", 44));
+		{
+			// free(philos[i]);
+			write(2, "an error occured while joining the threads\n", 44);
+		}
+		
 }
