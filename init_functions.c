@@ -6,17 +6,20 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 11:54:49 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/08 16:42:19 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/08 17:48:54 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+void	reset ()
+{
+	printf("\033[0m");
+}
 
-void	ft_think(t_data	philo);
-void	ft_pick_forks(t_data *philo);
-void	ft_put_down_forks(t_data *philo);
-void	ft_eat(t_data philo);
-void	ft_sleep(t_data philo);
+void	red()
+{
+	printf("\033[0;32m");
+}
 
 long long current_timestamp(void)
 {
@@ -26,50 +29,78 @@ long long current_timestamp(void)
 	miliseconds = current_time.tv_sec * 1000LL + current_time.tv_usec/1000;
 	return (miliseconds);
 }
-void reset () {
-  printf("\033[0m");
+
+
+void	ft_pick_forks(t_data *philo)
+{
+	red();
+	printf("%lld\t", current_timestamp());
+	reset();
+	pthread_mutex_lock(philo->fork);
+	printf("philo %d has taken a fork\n", philo->j + 1);
+	red();
+	printf("%lld\t", current_timestamp());
+	reset();
+	pthread_mutex_lock(philo->next_fork);
+	printf("philo %d has taken a fork\n", philo->j + 1);
 }
-void red(){
-	printf("\033[0;32m");
+
+void	ft_eat(t_data *philo)
+{
+	red();
+	printf("%lld\t", current_timestamp());
+	reset();
+	printf("philo %d is eating\n", philo->j + 1);
+	usleep(philo->args.time_to_eat);
+	pthread_mutex_unlock(philo->fork);
+	pthread_mutex_unlock(philo->next_fork);
 }
-pthread_mutex_t print_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+void	ft_sleep(t_data *philo)
+{
+	red();
+	printf("%lld\t", current_timestamp());
+	reset();
+	printf("philo %d is sleeping\n", philo->j + 1);
+	usleep(philo->args.time_to_sleep);
+}
+
 void	*ft_philosophers(void *a)
 {
 	t_data	*data = a;
-	static pthread_mutex_t print_mutex = PTHREAD_MUTEX_INITIALIZER;
-	// long long start;
-	// long long end;
-	// static long long time;
+	static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 	while (1)
 	{
-		pthread_mutex_lock(data->fork);
-		pthread_mutex_lock(&print_mutex);
-		red();
-		printf("%lld\t", current_timestamp());
-		reset();
-		printf("philo %d has taken a fork\n", data->j);
-		pthread_mutex_unlock(&print_mutex);
-		pthread_mutex_lock(data->next_fork);
-		pthread_mutex_lock(&print_mutex);
-		red();
-		printf("%lld\t", current_timestamp());
-		reset();
-		printf("philo %d has taken a fork\n", data->j);
-		red();
-		printf("%lld\t", current_timestamp());
-		reset();
-		printf("philo %d is eating\n", data->j);
-		pthread_mutex_unlock(&print_mutex);
-		usleep(data->args.time_to_eat * 1000);
-		pthread_mutex_unlock(data->fork);
-		pthread_mutex_unlock(data->next_fork);
-		pthread_mutex_lock(&print_mutex);
-		red();
-		printf("%lld\t", current_timestamp());
-		reset();
-		printf("philo %d is sleeping\n", data->j);
-		pthread_mutex_unlock(&print_mutex);
-		usleep(data->args.time_to_sleep * 1000);
+		pthread_mutex_lock(&lock);
+		ft_pick_forks(data);
+		ft_eat(data);
+		ft_sleep(data);
+		pthread_mutex_unlock(&lock);
+		// pthread_mutex_lock(data->fork);
+		// pthread_mutex_lock(&print_mutex);
+		// red();
+		// printf("%lld\t", current_timestamp());
+		// reset();
+		// printf("philo %d has taken a fork\n", data->j);
+		// pthread_mutex_lock(data->next_fork);
+		// pthread_mutex_lock(&print_mutex);
+		// red();
+		// printf("%lld\t", current_timestamp());
+		// reset();
+		// printf("philo %d has taken a fork\n", data->j);
+		// red();
+		// printf("%lld\t", current_timestamp());
+		// reset();
+		// printf("philo %d is eating\n", data->j);
+		// usleep(data->args.time_to_eat * 1000);
+		// pthread_mutex_unlock(data->fork);
+		// pthread_mutex_unlock(data->next_fork);
+		// pthread_mutex_lock(&print_mutex);
+		// red();
+		// printf("%lld\t", current_timestamp());
+		// reset();
+		// printf("philo %d is sleeping\n", data->j);
+		// usleep(data->args.time_to_sleep * 1000);
 	}
 	return (data);
 }
@@ -141,7 +172,7 @@ t_data	**init_philos(t_args	arg)
 
 t_data	*init_needed_data(t_data **data, t_args args, int i)
 {
-	data[i]->print_mutex = malloc(sizeof(pthread_mutex_t));
+	// data[i]->print_mutex = malloc(sizeof(pthread_mutex_t));
 	data[i]->args = args;
 	data[i]->j = i + 1;
 	return (data[i]);
