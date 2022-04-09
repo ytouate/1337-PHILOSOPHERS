@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 17:53:08 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/08 11:58:19 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/09 14:51:02 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,18 @@ int	ft_atoi(const char *str)
 	return ((((int)result) * sign));
 }
 
-void	join_philos(pthread_t	*philos, t_args data)
+int	join_philos(pthread_t	*philos, t_args data)
 {
 	int	i;
 
 	i = -1;
 	while (++i < data.num_of_forks)
+	{
 		if (pthread_join(philos[i], NULL) == -1)
 		{
-			// free(philos[i]);
 			write(2, "an error occured while joining the threads\n", 44);
+			return (0);
 		}
-		
+	}
+	return (1);
 }
