@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 14:41:37 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/09 14:50:03 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/09 16:46:25 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,30 @@ long long	current_timestamp(void)
 	return (miliseconds);
 }
 
+void	ft_eat(t_data *philo)
+{
+	pthread_mutex_lock(philo->fork);
+	print_message(philo, FORK);
+	pthread_mutex_lock(philo->next_fork);
+	print_message(philo, FORK);
+	print_message(philo, EATING);
+	philo->meals_eaten += 1;
+	usleep(philo->args.time_to_eat * 1000);
+	pthread_mutex_unlock(philo->fork);
+	pthread_mutex_unlock(philo->next_fork);
+}
+
 void	*ft_philosophers(void *a)
 {
-	t_data	*data;
+	t_data		*data;
 
 	data = a;
 	while (1)
 	{
-		pthread_mutex_lock(data->fork);
-		print_message(data, FORK);
-		pthread_mutex_lock(data->next_fork);
-		print_message(data, FORK);
-		print_message(data, EATING);
-		usleep(data->args.time_to_eat * 1000);
-		pthread_mutex_unlock(data->fork);
-		pthread_mutex_unlock(data->next_fork);
+		ft_eat(data);
 		print_message(data, SLEEPING);
 		usleep(data->args.time_to_sleep * 1000);
+		print_message(data, THINKING);
 	}
 	return (NULL);
 }

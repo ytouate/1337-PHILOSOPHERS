@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 14:39:50 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/09 15:10:41 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/09 16:01:57 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	put_time(void)
 	reset();
 }
 
-void	print_message(t_data *philo, int act)
+int	print_message(t_data *philo, int act)
 {
 	static pthread_mutex_t	lock = PTHREAD_MUTEX_INITIALIZER;
 
@@ -54,5 +54,12 @@ void	print_message(t_data *philo, int act)
 		put_time();
 		printf("philo %d is thinking\n", philo->j);
 	}
+	else if (act == END)
+	{
+		put_time();
+		printf("kolshy kla\n");
+		return (0);
+	}
 	pthread_mutex_unlock(&lock);
+	return (1);
 }

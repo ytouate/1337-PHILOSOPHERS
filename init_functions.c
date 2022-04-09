@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 11:54:49 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/09 14:50:44 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/09 18:03:33 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,27 @@ t_data	**put_next_fork(t_data **data, t_args args)
 	return (data);
 }
 
+int check_meals (t_data **philos)
+{
+	int		i;
+	int		meals;
+	int		num;
+	int flag = 0;
+
+	meals = philos[0]->args.meals_count;
+	num = philos[0]->args.num_of_philos;
+	i = -1;
+	while (++i < num)
+	{
+		if (philos[i]->meals_eaten >= meals)
+			flag += 1;
+	}
+	if (flag == num)
+		return (1);
+	else
+		return (0);
+}
+
 t_data	**init_philos(t_args	arg)
 {
 	int				i;
@@ -78,20 +99,27 @@ t_data	**init_philos(t_args	arg)
 		data[i] = init_needed_data(data, arg, i);
 		if (pthread_create(&p[i], NULL, ft_philosophers, data[i]) == -1)
 		{
-			write(2, "an error occugreen while creating threads\n", 41);
+			write(2, "an error occured while creating threads\n", 41);
 			return (0);
 		}
 		i++;
 		usleep(100);
 	}
-	if (join_philos(p, arg) == 0)
-		return (0);
+	while (1)
+	{
+		if (check_meals(data) == 1)
+		{
+			print_message(*data, END);
+			return (0); 
+		}
+	}
 	return (data);
 }
 
 t_data	*init_needed_data(t_data **data, t_args args, int i)
 {
 	data[i]->args = args;
+	data[i]->meals_eaten = 0;
 	data[i]->j = i + 1;
 	return (data[i]);
 }
