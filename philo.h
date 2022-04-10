@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 11:42:23 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/09 15:58:24 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/09 20:37:49 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 typedef struct args_s{
 	int	num_of_philos;
 	int	num_of_forks;
-	int	time_to_die;
+	long long	time_to_die;
 	int	time_to_sleep;
 	int	time_to_eat;
 	int	meals_count;
@@ -50,7 +50,7 @@ typedef struct data
 	pthread_mutex_t		*next_fork;
 	int					meals_eaten;
 	int					j;
-	int					last_meal_time;
+	long long			last_meal_time;
 	t_args				args;
 }t_data;
 
@@ -66,6 +66,6 @@ t_data		*init_needed_data(t_data **data, t_args args, int i);
 long long	current_timestamp(void);
 void		reset(void);
 void		green(void);
-int		print_message(t_data *philo, int act);
+int			print_message(t_data *philo, int act);
 void		*ft_philosophers(void *a);
 #endif

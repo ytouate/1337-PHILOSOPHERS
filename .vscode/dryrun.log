@@ -1,0 +1,12 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/ytouate/Desktop/Philosophers'
+gcc -Wall -Wextra -Werror   -c -o philo.o philo.c
+gcc -Wall -Wextra -Werror   -c -o philo_routine.o philo_routine.c
+gcc -Wall -Wextra -Werror   -c -o philo_utils.o philo_utils.c
+gcc -Wall -Wextra -Werror   -c -o print_funcs.o print_funcs.c
+gcc -Wall -Wextra -Werror   -c -o valid_args.o valid_args.c
+gcc -Wall -Wextra -Werror   -c -o init_functions.o init_functions.c
+ar -rc philo.a ./philo.o ./philo_routine.o ./philo_utils.o ./print_funcs.o ./valid_args.o ./init_functions.o
+gcc -Wall -Wextra -Werror philo.a -o philo
+make: Leaving directory `/Users/ytouate/Desktop/Philosophers'
+ 

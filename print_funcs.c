@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 14:39:50 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/09 16:01:57 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/09 19:55:30 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,12 @@ int	print_message(t_data *philo, int act)
 	{
 		put_time();
 		printf("kolshy kla\n");
+		return (0);
+	}
+	else if (act == DIED)
+	{
+		put_time();
+		printf("philo maaat\n");
 		return (0);
 	}
 	pthread_mutex_unlock(&lock);

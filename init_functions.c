@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 11:54:49 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/09 18:03:33 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/10 00:17:35 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,17 @@ t_data	**put_next_fork(t_data **data, t_args args)
 	return (data);
 }
 
-int check_meals (t_data **philos)
+int	check_meals (t_data **philos)
 {
 	int		i;
 	int		meals;
 	int		num;
-	int flag = 0;
+	int		flag;
 
+	flag = 0;
 	meals = philos[0]->args.meals_count;
+	if (meals == -1)
+		return (0);
 	num = philos[0]->args.num_of_philos;
 	i = -1;
 	while (++i < num)
@@ -82,6 +85,25 @@ int check_meals (t_data **philos)
 		return (0);
 }
 
+int check_death(t_data **philos)
+{
+	int i;
+	int num;
+
+	num = philos[0]->args.num_of_philos;
+	if (num == 1)
+		return (0);
+	i = 0;
+	while (i < num)
+	{
+		if (philos[i]->last_meal_time == 0)
+			return (1);
+		if (current_timestamp() - philos[i]->last_meal_time >= (*philos)->args.time_to_die)
+			return (0);
+		i++;
+	}
+	return (1);
+}
 t_data	**init_philos(t_args	arg)
 {
 	int				i;
@@ -112,6 +134,11 @@ t_data	**init_philos(t_args	arg)
 			print_message(*data, END);
 			return (0); 
 		}
+		if (!check_death(data))
+		{
+			print_message(*data, DIED);
+			return (0);
+		}
 	}
 	return (data);
 }
@@ -123,3 +150,5 @@ t_data	*init_needed_data(t_data **data, t_args args, int i)
 	data[i]->j = i + 1;
 	return (data[i]);
 }
+
+/* handle the 0 case in the sixth argument */
