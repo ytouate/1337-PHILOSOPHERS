@@ -6,7 +6,7 @@
 #    By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 11:44:44 by ytouate           #+#    #+#              #
-#    Updated: 2022/04/10 14:02:26 by ytouate          ###   ########.fr        #
+#    Updated: 2022/04/10 22:56:10 by ytouate          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,3 +35,5 @@ clean:
 
 fclean: clean
 	@rm -rf philo philo.a .vscode 
+
+re: fclean all
