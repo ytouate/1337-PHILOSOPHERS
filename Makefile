@@ -6,7 +6,7 @@
 #    By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 11:44:44 by ytouate           #+#    #+#              #
-#    Updated: 2022/04/10 13:54:56 by ytouate          ###   ########.fr        #
+#    Updated: 2022/04/10 14:02:26 by ytouate          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,12 +24,14 @@ FILES = \
 
 O_FILES = $(FILES:.c=.o)
 
-all: $(O_FILES)
-	ar -rc philo.a $(O_FILES)
-	$(CC) $(CFLAGS) philo.a -o $(NAME)
+$(NAME): $(O_FILES)
+	@ar -rc philo.a $(O_FILES)
+	@$(CC) $(CFLAGS) philo.a -o $(NAME)
+
+all: $(NAME)
 
 clean:
-	rm -f $(O_FILES)
+	@rm -f $(O_FILES)
 
 fclean: clean
-	rm -rf philo philo.a .vscode 
+	@rm -rf philo philo.a .vscode 
