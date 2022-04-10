@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 14:41:37 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/09 20:31:42 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/10 18:06:51 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	ft_eat(t_data *philo)
 	print_message(philo, FORK);
 	pthread_mutex_lock(philo->next_fork);
 	print_message(philo, FORK);
-	print_message(philo, EATING);
 	philo->last_meal_time = current_timestamp();
+	print_message(philo, EATING);
 	usleep(philo->args.time_to_eat * 1000);
 	philo->meals_eaten += 1;
 	pthread_mutex_unlock(philo->fork);

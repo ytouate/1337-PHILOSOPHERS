@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 11:42:23 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/10 13:56:01 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/10 22:04:58 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,13 @@
 # define END 6
 
 typedef struct args_s{
-	int			num_of_philos;
-	int			num_of_forks;
-	long long	time_to_die;
-	int			time_to_sleep;
-	int			time_to_eat;
-	int			meals_count;
+	int				num_of_philos;
+	int				num_of_forks;
+	long long		time_to_die;
+	int				time_to_sleep;
+	int				time_to_eat;
+	int				meals_count;
+	pthread_mutex_t	*print_lock;
 }t_args;
 
 typedef struct status_s{

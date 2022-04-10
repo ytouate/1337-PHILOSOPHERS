@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 14:39:50 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/10 13:35:04 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/10 22:05:21 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,7 @@ void	print_message_2(t_data *philo, int act)
 
 void	print_message(t_data *philo, int act)
 {
-	static pthread_mutex_t	lock = PTHREAD_MUTEX_INITIALIZER;
-
-	pthread_mutex_lock(&lock);
+	pthread_mutex_lock(philo->args.print_lock);
 	if (act == FORK)
 	{
 		put_time();
@@ -69,5 +67,5 @@ void	print_message(t_data *philo, int act)
 		printf("philo %d is sleeping\n", philo->j);
 	}
 	print_message_2(philo, act);
-	pthread_mutex_unlock(&lock);
+	pthread_mutex_unlock(philo->args.print_lock);
 }

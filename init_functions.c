@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 11:54:49 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/10 13:53:56 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/10 22:47:08 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,3 @@ t_data	*init_needed_data(t_data **data, t_args args, int i)
 	data[i]->j = i + 1;
 	return (data[i]);
 }
-
-/* handle the 0 case in the sixth argument */

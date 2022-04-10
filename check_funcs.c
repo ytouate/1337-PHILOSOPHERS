@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 13:54:01 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/10 13:57:42 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/10 22:47:01 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,15 @@ int	check_death(t_data **philos)
 	num = philos[0]->args.num_of_philos;
 	if (num == 1)
 	{
-		usleep (philos[0]->args.time_to_die * 1000);
+		usleep((*philos)->args.time_to_die * 1000);
 		return (0);
 	}
 	i = 0;
 	while (i < num)
 	{
 		res = current_timestamp() - philos[i]->last_meal_time;
-		sleep(1);
 		if (philos[i]->last_meal_time != 0)
-			if (res >= (*philos)->args.time_to_die)
+			if (res > (*philos)->args.time_to_die)
 				return (0);
 		i++;
 	}
@@ -72,7 +71,11 @@ int	ft_end(t_data **data)
 		}
 		if (!check_death(data))
 		{
-			print_message(*data, DIED);
+			pthread_mutex_lock((*data)->args.print_lock);
+			green();
+			printf("%lld\t", current_timestamp());
+			printf("\033[31m");
+			printf("philo %d is died\n", (*data)->j);
 			return (0);
 		}
 	}
