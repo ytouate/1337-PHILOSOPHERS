@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 14:39:50 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/09 19:55:30 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/10 13:35:04 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,26 @@ void	put_time(void)
 	reset();
 }
 
-int	print_message(t_data *philo, int act)
+void	print_message_2(t_data *philo, int act)
+{
+	if (act == THINKING)
+	{
+		put_time();
+		printf("philo %d is thinking\n", philo->j);
+	}
+	else if (act == END)
+	{
+		put_time();
+		printf("the simulation ends\n");
+	}
+	else if (act == DIED)
+	{
+		put_time();
+		printf("philo %d is died\n", philo->j);
+	}
+}
+
+void	print_message(t_data *philo, int act)
 {
 	static pthread_mutex_t	lock = PTHREAD_MUTEX_INITIALIZER;
 
@@ -49,23 +68,6 @@ int	print_message(t_data *philo, int act)
 		put_time();
 		printf("philo %d is sleeping\n", philo->j);
 	}
-	else if (act == THINKING)
-	{
-		put_time();
-		printf("philo %d is thinking\n", philo->j);
-	}
-	else if (act == END)
-	{
-		put_time();
-		printf("kolshy kla\n");
-		return (0);
-	}
-	else if (act == DIED)
-	{
-		put_time();
-		printf("philo maaat\n");
-		return (0);
-	}
+	print_message_2(philo, act);
 	pthread_mutex_unlock(&lock);
-	return (1);
 }

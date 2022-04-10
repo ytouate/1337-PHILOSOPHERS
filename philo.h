@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 11:42:23 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/09 20:37:49 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/10 13:56:01 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@
 # define END 6
 
 typedef struct args_s{
-	int	num_of_philos;
-	int	num_of_forks;
+	int			num_of_philos;
+	int			num_of_forks;
 	long long	time_to_die;
-	int	time_to_sleep;
-	int	time_to_eat;
-	int	meals_count;
+	int			time_to_sleep;
+	int			time_to_eat;
+	int			meals_count;
 }t_args;
 
 typedef struct status_s{
@@ -59,13 +59,17 @@ int			ft_atoi(const char *str);
 int			is_int(char *s);
 int			check_args(int ac, char **av);
 int			join_philos(pthread_t	*philos, t_args data);
+int			check_meals(t_data **philos);
+int			check_death(t_data **philos);
+int			ft_end(t_data **data);
+void		reset(void);
+void		green(void);
+void		print_message(t_data *philo, int act);
+void		*ft_philosophers(void *a);
 t_data		**put_fork(t_args arg);
 t_data		**put_next_fork(t_data **data, t_args args);
 t_data		**init_philos(t_args	arg);
 t_data		*init_needed_data(t_data **data, t_args args, int i);
 long long	current_timestamp(void);
-void		reset(void);
-void		green(void);
-int			print_message(t_data *philo, int act);
-void		*ft_philosophers(void *a);
+
 #endif
