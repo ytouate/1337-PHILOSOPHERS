@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 11:42:23 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/10 22:04:58 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/11 20:29:56 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,5 @@ t_data		**put_next_fork(t_data **data, t_args args);
 t_data		**init_philos(t_args	arg);
 t_data		*init_needed_data(t_data **data, t_args args, int i);
 long long	current_timestamp(void);
-
+void	put_time(void);
 #endif

@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 14:39:50 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/10 22:05:21 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/11 20:36:43 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,25 +29,6 @@ void	put_time(void)
 	reset();
 }
 
-void	print_message_2(t_data *philo, int act)
-{
-	if (act == THINKING)
-	{
-		put_time();
-		printf("philo %d is thinking\n", philo->j);
-	}
-	else if (act == END)
-	{
-		put_time();
-		printf("the simulation ends\n");
-	}
-	else if (act == DIED)
-	{
-		put_time();
-		printf("philo %d is died\n", philo->j);
-	}
-}
-
 void	print_message(t_data *philo, int act)
 {
 	pthread_mutex_lock(philo->args.print_lock);
@@ -66,6 +47,10 @@ void	print_message(t_data *philo, int act)
 		put_time();
 		printf("philo %d is sleeping\n", philo->j);
 	}
-	print_message_2(philo, act);
+	if (act == THINKING)
+	{
+		put_time();
+		printf("philo %d is thinking\n", philo->j);
+	}
 	pthread_mutex_unlock(philo->args.print_lock);
 }
