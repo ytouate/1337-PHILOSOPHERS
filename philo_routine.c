@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 14:41:37 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/10 18:06:51 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/12 18:55:38 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_eat(t_data *philo)
 	print_message(philo, FORK);
 	philo->last_meal_time = current_timestamp();
 	print_message(philo, EATING);
-	usleep(philo->args.time_to_eat * 1000);
+	ft_usleep(philo->args.time_to_eat * 1000);
 	philo->meals_eaten += 1;
 	pthread_mutex_unlock(philo->fork);
 	pthread_mutex_unlock(philo->next_fork);
@@ -45,7 +45,7 @@ void	*ft_philosophers(void *a)
 	{
 		ft_eat(data);
 		print_message(data, SLEEPING);
-		usleep(data->args.time_to_sleep * 1000);
+		ft_usleep(data->args.time_to_sleep * 1000);
 		print_message(data, THINKING);
 	}
 	return (NULL);

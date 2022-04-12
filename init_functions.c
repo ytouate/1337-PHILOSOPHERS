@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 11:54:49 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/10 22:47:08 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/12 15:57:13 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,14 @@ t_data	**init_philos(t_args	arg)
 	while (i < arg.num_of_philos)
 	{
 		data[i] = init_needed_data(data, arg, i);
+		data[i]->args.start_time = current_timestamp();
 		if (pthread_create(&p[i], NULL, ft_philosophers, data[i]) == -1)
 		{
 			write(2, "an error occured while creating threads\n", 41);
 			return (0);
 		}
 		i++;
-		usleep(100);
+		usleep(50);
 	}
 	if (ft_end(data) == 0)
 		return (0);

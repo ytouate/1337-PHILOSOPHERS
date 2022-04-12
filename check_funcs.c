@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 13:54:01 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/12 00:27:55 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/12 01:06:00 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,11 @@ int	check_death(t_data **philos)
 	return (1);
 }
 
+void red()
+{
+	printf("\033[31m");
+}
+
 int	ft_end(t_data **data)
 {
 	while (1)
@@ -67,7 +72,7 @@ int	ft_end(t_data **data)
 		if (check_meals(data) == 1)
 		{
 			pthread_mutex_lock((*data)->args.print_lock);
-			put_time();
+			put_time(*data);
 			printf("the simulation has ended all philos ate %d meals\n",
 				(*data)->j);
 			return (0);
@@ -75,8 +80,8 @@ int	ft_end(t_data **data)
 		if (!check_death(data))
 		{
 			green();
-			printf("%lld\t", current_timestamp());
-			printf("\033[31m");
+			put_time(*data);
+			red();
 			printf("philo %d is died\n", (*data)->j);
 			return (0);
 		}
