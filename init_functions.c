@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 11:54:49 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/12 15:57:13 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/12 19:48:35 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_data	**init_philos(t_args	arg)
 	}
 	if (ft_end(data) == 0)
 		return (0);
-	return (data);
+	return (NULL);
 }
 
 t_data	*init_needed_data(t_data **data, t_args args, int i)

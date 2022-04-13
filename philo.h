@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 11:42:23 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/12 18:54:57 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/13 01:40:21 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,5 @@ t_data		**init_philos(t_args	arg);
 t_data		*init_needed_data(t_data **data, t_args args, int i);
 long long	current_timestamp(void);
 void		put_time(t_data *philo);
-void	ft_usleep(long long desire_time);
+void		ft_usleep(long long desire_time);
 #endif
