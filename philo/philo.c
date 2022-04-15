@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 11:44:37 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/12 20:35:10 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/14 18:05:36 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ int	data_init(t_args *data, int ac, char **av)
 	return (1);
 }
 
-void	ft_usleep(long long desire_time)
+void	ft_usleep(long long desired_time)
 {
-	usleep(desire_time * 98 / 100);
+	usleep(desired_time * 98 / 100);
 }
 
 int	main(int ac, char **av)

@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 01:49:23 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/13 14:48:49 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/15 02:14:28 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ int	check_args(int ac, char **av)
 
 int	data_init(t_args *data, int ac, char **av)
 {
-	data->print_lock = malloc (sizeof(pthread_mutex_t));
-	pthread_mutex_init(data->print_lock, NULL);
 	data->num_of_philos = ft_atoi(av[1]);
 	data->num_of_forks = data->num_of_philos;
 	data->time_to_die = ft_atoi(av[2]);
@@ -109,14 +107,84 @@ int	data_init(t_args *data, int ac, char **av)
 	return (1);
 }
 
+void routine(t_data *data)
+{
+	while (1)
+	{
+		sem_wait(data->args.forks);
+		printf("philo %d has taken a fork\n", data->id);
+		sem_wait(data->args.forks);
+		printf("philo %d has taken a fork\n", data->id);
+		data->last_meal_time = current_timestamp();
+		usleep(data->args.time_to_eat * 1000);
+		printf("philo %d is eating\n", data->id);
+		sem_post(data->args.forks);
+		sem_post(data->args.forks);
+		usleep(data->args.time_to_sleep * 1000);
+		printf("philo %d is sleeping\n", data->id);
+		printf("philo %d is thinking\n", data->id);	
+	}
+}
+
+long long	current_timestamp(void)
+{
+	struct timeval	current_time;
+	long long		miliseconds;
+
+	gettimeofday(&current_time, NULL);
+	miliseconds = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
+	return (miliseconds);
+}
+
+void	ft_usleep(long long desired_time)
+{
+	long long start_time;
+	long long end_time;
+	start_time = current_timestamp();
+	end_time = start_time + desired_time;
+	while (start_time < end_time)
+	{
+		usleep(200);
+	}
+	// usleep(desire_time * 98 / 100);
+}
+
 int main(int ac, char **av)
 {
-	t_args data;
+	t_args		args;
+	t_data		**philos;
+	sem_t		*forks;
+	int			i;
+	pid_t		*pid;
+	int j = 	1;
+	i = 0;
+	
 	if (check_args(ac, av))
 	{
-		if(data_init(&data, ac, av))
-			printf("helloo world\n");
-		else
-			return (0);
+		if (data_init(&args, ac, av))
+		{
+			sem_unlink("fork");
+			philos = malloc(sizeof(t_data *)  *args.num_of_philos);
+			pid = malloc(sizeof(pid_t) * args.num_of_philos);
+			args.forks = sem_open("fork", O_CREAT, 777, args.num_of_forks);
+			while (i < args.num_of_philos)
+			{
+				philos[i] = malloc(sizeof(t_data));
+				pid[i] = fork();
+				philos[i]->id = i + 1;
+				philos[i]->pid = pid[i];
+				philos[i]->args = args;
+				if (pid[i] == 0)
+				{
+					philos[i]->start_time = current_timestamp();
+					routine(philos[i]);
+					exit(EXIT_SUCCESS);
+				}
+				i++;
+			}
+			int i = -1;
+			while (++i < args.num_of_philos)
+				waitpid(pid[i], NULL, 0);
+		}
 	}
 }

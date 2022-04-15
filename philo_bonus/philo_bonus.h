@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 02:46:54 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/13 14:44:27 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/14 15:16:30 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <semaphore.h>
 # include <sys/time.h>
+# include <sys/types.h>
 
 typedef struct args_s{
 	int				num_of_philos;
@@ -28,7 +29,15 @@ typedef struct args_s{
 	int				time_to_eat;
 	int				meals_count;
 	long long		start_time;
-	pthread_mutex_t	*print_lock;
+	sem_t			*forks;
 }t_args;
 
+typedef struct s_data{
+	int			id;
+	pid_t		pid;
+	t_args		args;
+	long long	start_time;
+	long long	last_meal_time;
+}t_data;
+long long	current_timestamp(void);
 #endif
