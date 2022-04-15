@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 22:58:13 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/15 23:30:05 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/15 23:43:46 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,3 @@ void	ft_usleep(long long desired_time)
 		start_time = current_timestamp();
 	}
 }
-

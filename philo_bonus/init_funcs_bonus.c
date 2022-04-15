@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 23:15:35 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/15 23:17:53 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/15 23:44:02 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	data_init(t_args *data, int ac, char **av)
 {
 	sem_unlink("fork");
 	sem_unlink("print");
-	
 	data->print_sema = sem_open("print", O_CREAT, 0644, 1);
 	data->num_of_philos = ft_atoi(av[1]);
 	data->num_of_forks = data->num_of_philos;
@@ -38,7 +37,7 @@ int	data_init(t_args *data, int ac, char **av)
 	return (1);
 }
 
-t_data  *init_needed_data(t_args args, t_data **philos, int i)
+t_data	*init_needed_data(t_args args, t_data **philos, int i)
 {
 	philos[i] = malloc(sizeof(t_data));
 	philos[i]->id = i + 1;

@@ -6,12 +6,12 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 02:46:54 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/15 23:17:12 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/15 23:41:54 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_BONUS_H
-#define PHILO_BONUS_H
+# define PHILO_BONUS_H
 
 # include <pthread.h>
 # include <stdio.h>
@@ -47,19 +47,19 @@ typedef struct s_data{
 	t_args		args;
 	long long	start_time;
 	long long	last_meal_time;
-	int meals_track;
+	int			meals_track;
 }t_data;
+void		ft_usleep(long long desired_time);
+void		reset(void);
+void		green(void);
+void		red(void);
+void		print_message(t_data *data, int act);
+int			ft_atoi(const char *str);
+int			is_int(char *s);
+int			check_args(int ac, char **av);
+int			data_init(t_args *data, int ac, char **av);
+long long	current_timestamp(void);
+long long	current_timestamp(void);
 
-long long	current_timestamp(void);
-int	ft_atoi(const char *str);
-int	is_int(char *s);
-int	check_args(int ac, char **av);
-long long	current_timestamp(void);
-void	ft_usleep(long long desired_time);
-void	reset(void);
-void	green(void);
-void	red(void);
-void print_message(t_data *data, int act);
-int	data_init(t_args *data, int ac, char **av);
-t_data* init_needed_data(t_args args, t_data **philos, int i);
+t_data		*init_needed_data(t_args args, t_data **philos, int i);
 #endif
