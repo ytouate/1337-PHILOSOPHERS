@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 13:54:01 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/13 01:40:10 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/15 14:57:18 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	ft_end(t_data **data)
 			pthread_mutex_lock((*data)->args.print_lock);
 			put_time(*data);
 			printf("the simulation has ended all philos ate %d meals\n",
-				(*data)->j);
+				(*data)->args.meals_count);
 			return (0);
 		}
 		if (!check_death(data))

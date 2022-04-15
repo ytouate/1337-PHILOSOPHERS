@@ -6,16 +6,20 @@
 #    By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/13 01:43:01 by ytouate           #+#    #+#              #
-#    Updated: 2022/04/13 21:17:44 by ytouate          ###   ########.fr        #
+#    Updated: 2022/04/15 23:16:46 by ytouate          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo_bonus
 CC = gcc
-# CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 
 FILES = \
-		./philo_bonus.c
+		./philo_bonus.c				\
+		./philo_utils_bonus.c		\
+		./check_func_bonus.c		\
+		./print_funcs_bonus.c		\
+		./init_funcs_bonus.c
 
 O_FILES = $(FILES:.c=.o)
 

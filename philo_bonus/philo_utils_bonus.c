@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_routine.c                                    :+:      :+:    :+:   */
+/*   philo_utils_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/09 14:41:37 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/15 15:06:26 by ytouate          ###   ########.fr       */
+/*   Created: 2022/04/15 22:58:13 by ytouate           #+#    #+#             */
+/*   Updated: 2022/04/15 23:30:05 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 long long	current_timestamp(void)
 {
@@ -22,31 +22,17 @@ long long	current_timestamp(void)
 	return (miliseconds);
 }
 
-void	ft_eat(t_data *philo)
+void	ft_usleep(long long desired_time)
 {
-	pthread_mutex_lock(philo->fork);
-	print_message(philo, FORK);
-	pthread_mutex_lock(philo->next_fork);
-	print_message(philo, FORK);
-	philo->last_meal_time = current_timestamp();
-	print_message(philo, EATING);
-	ft_usleep(philo->args.time_to_eat);
-	philo->meals_eaten += 1;
-	pthread_mutex_unlock(philo->fork);
-	pthread_mutex_unlock(philo->next_fork);
-}
+	long long	start_time;
+	long long	end_time;
 
-void	*ft_philosophers(void *a)
-{
-	t_data		*data;
-
-	data = a;
-	while (1)
+	start_time = current_timestamp();
+	end_time = start_time + desired_time;
+	while (start_time < end_time)
 	{
-		ft_eat(data);
-		print_message(data, SLEEPING);
-		ft_usleep(data->args.time_to_sleep);
-		print_message(data, THINKING);
+		usleep(100);
+		start_time = current_timestamp();
 	}
-	return (NULL);
 }
+
