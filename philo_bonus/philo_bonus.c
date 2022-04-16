@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 01:49:23 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/15 23:22:43 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/16 02:07:40 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	ft_end(t_data *data)
 	if (current_timestamp() - data->last_meal_time > data->args.time_to_die)
 	{
 		sem_wait(data->args.print_sema);
+		put_time(data);
 		printf("philo dies\n");
 		exit(0);
 	}
@@ -72,6 +73,7 @@ void	start_routine(int ac, t_args args)
 	i = -1;
 	philos = malloc(sizeof(t_data *) * args.num_of_philos);
 	pid = malloc(sizeof(pid_t) * args.num_of_philos);
+	args.start_time = current_timestamp();
 	while (++i < args.num_of_philos)
 	{
 		philos[i] = init_needed_data(args, philos, i);

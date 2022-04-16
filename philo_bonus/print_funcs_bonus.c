@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 22:58:16 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/15 23:30:38 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/16 02:06:02 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,36 @@ void	red(void)
 	printf("\033[31m");
 }
 
+void	put_time(t_data *philo)
+{
+	(void)philo;
+	green();
+	printf("%lld\t", current_timestamp() - philo->args.start_time);
+	reset();
+}
+
 void	print_message(t_data *data, int act)
 {
 	sem_wait(data->args.print_sema);
 	if (act == DIED)
 	{
-		red();
-		printf("philo %d is died\n", data->id);
-		reset();
+		put_time(data);
+		printf("%d is died\n", data->id);
 	}
 	else if (act == EATING)
 	{
-		green();
-		printf("philo %d is eating\n", data->id);
-		reset();
+		put_time(data);
+		printf("%d is eating\n", data->id);
 	}
 	else if (act == SLEEPING)
-		printf("philo %d is sleeping\n", data->id);
+	{
+		put_time(data);
+		printf("%d is sleeping\n", data->id);
+	}
 	else if (act == FORK)
-		printf("philo %d has taken is fork\n", data->id);
+	{
+		put_time(data);
+		printf("%d has taken is fork\n", data->id);
+	}
 	sem_post(data->args.print_sema);
 }

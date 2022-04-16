@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 02:46:54 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/15 23:41:54 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/16 02:04:52 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_data{
 	long long	last_meal_time;
 	int			meals_track;
 }t_data;
+
 void		ft_usleep(long long desired_time);
 void		reset(void);
 void		green(void);
@@ -60,6 +61,6 @@ int			check_args(int ac, char **av);
 int			data_init(t_args *data, int ac, char **av);
 long long	current_timestamp(void);
 long long	current_timestamp(void);
-
+void		put_time(t_data *philo);
 t_data		*init_needed_data(t_args args, t_data **philos, int i);
 #endif
