@@ -6,38 +6,53 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 01:49:23 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/16 16:12:06 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/16 17:12:57 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	ft_end(t_data *data)
+void	manage(t_data *philo)
 {
-	static int i;
+	pthread_t	start;
+	pthread_t	check;
+
+	pthread_create(&start, NULL, routine, philo);
+	pthread_create(&check, NULL, ft_end, philo);
+	pthread_join(start, NULL);
+	pthread_join(check, NULL);
+}
+
+void	*ft_end(void *arg)
+{
+	t_data	*data;
+
+	data = arg;
 	if (current_timestamp() - data->last_meal_time > data->args.time_to_die)
 	{
 		sem_wait(data->args.print_sema);
 		put_time(data);
-		printf("%d dies\n", data->id);
+		printf("%d died\n", data->id);
+		kill(0, SIGINT);
 		exit(0);
 	}
 	else if (data->meals_track >= data->args.meals_count
 		&& data->args.meals_count != -1)
 	{
-		i++;
-		if (i >= data->args.num_of_philos)
-		{
-			sem_wait(data->args.print_sema);
-			put_time(data);
-			printf("the simulation ends\n");
-			kill(0, SIGINT);
-		}
+		printf("here 22\n");
+		sem_wait(data->args.print_sema);
+		put_time(data);
+		printf("the simulation ends\n");
+		kill(0, SIGINT);
 	}
+	return (NULL);
 }
 
-void	routine(t_data *data)
+void	*routine(void *arg)
 {
+	t_data	*data;
+
+	data = arg;
 	while (1)
 	{
 		if (sem_wait(data->args.forks) == -1)
@@ -57,8 +72,8 @@ void	routine(t_data *data)
 		usleep(data->args.time_to_sleep * 1000);
 		print_message(data, SLEEPING);
 		print_message(data, THINKING);
-		ft_end(data);
 	}
+	return (NULL);
 }
 
 void	ft_wait(int ac, pid_t *pid, t_args args)
@@ -90,6 +105,7 @@ void	start_routine(int ac, t_args args)
 	pid = malloc(sizeof(pid_t) * args.num_of_philos);
 	if (!pid || !philos)
 		return ;
+	args.start_time = current_timestamp();
 	while (++i < args.num_of_philos)
 	{
 		philos[i] = init_needed_data(args, philos, i);
@@ -98,14 +114,13 @@ void	start_routine(int ac, t_args args)
 			exit(1);
 		if (pid[i] == 0)
 		{
-			routine(philos[i]);
+			manage(philos[i]);
 			exit(EXIT_SUCCESS);
 		}
-		if (usleep(50) == -1)
-			exit(1);
 	}
 	ft_wait(ac, pid, args);
 }
+
 
 int	main(int ac, char **av)
 {

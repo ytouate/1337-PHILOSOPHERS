@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 02:46:54 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/16 02:54:03 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/16 17:10:34 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,7 @@ int			data_init(t_args *data, int ac, char **av);
 long long	current_timestamp(void);
 long long	current_timestamp(void);
 void		put_time(t_data *philo);
+void		*ft_end(void *arg);
+void		*routine(void *arg);
 t_data		*init_needed_data(t_args args, t_data **philos, int i);
 #endif
