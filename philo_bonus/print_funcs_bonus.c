@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 22:58:16 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/16 15:57:06 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/16 16:05:59 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	put_time(t_data *philo)
 
 void	print_message(t_data *data, int act)
 {
-	sem_wait(data->args.print_sema);
+	if (sem_wait(data->args.print_sema) == -1)
+		exit(1);
 	if (act == DIED)
 	{
 		put_time(data);
@@ -57,5 +58,6 @@ void	print_message(t_data *data, int act)
 		put_time(data);
 		printf("%d has taken is fork\n", data->id);
 	}
-	sem_post(data->args.print_sema);
+	if (sem_post(data->args.print_sema))
+		exit(1);
 }

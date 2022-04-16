@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 23:15:35 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/16 02:51:52 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/16 16:02:07 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	data_init(t_args *data, int ac, char **av)
 t_data	*init_needed_data(t_args args, t_data **philos, int i)
 {
 	philos[i] = malloc(sizeof(t_data));
+	if (!philos[i])
+		exit(1);
 	philos[i]->id = i + 1;
 	philos[i]->args = args;
 	philos[i]->meals_track = 0;
