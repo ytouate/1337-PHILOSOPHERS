@@ -6,13 +6,13 @@
 #    By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/13 01:43:01 by ytouate           #+#    #+#              #
-#    Updated: 2022/04/15 23:16:46 by ytouate          ###   ########.fr        #
+#    Updated: 2022/04/16 15:48:12 by ytouate          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo_bonus
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 
 FILES = \
 		./philo_bonus.c				\

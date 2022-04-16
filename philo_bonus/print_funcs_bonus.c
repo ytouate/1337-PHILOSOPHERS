@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 22:58:16 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/16 03:11:03 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/16 15:57:06 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ void	red(void)
 void	put_time(t_data *philo)
 {
 	green();
-	printf("%lld\n", philo->args.start_time);
-	printf("%lld\t", current_timestamp() - philo->args.start_time);
+	printf("%lld:\t", current_timestamp() - philo->args.start_time);
 	reset();
 }
 

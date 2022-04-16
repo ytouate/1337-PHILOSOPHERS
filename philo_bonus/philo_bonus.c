@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 01:49:23 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/16 03:12:04 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/16 15:56:27 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,26 @@
 
 void	ft_end(t_data *data)
 {
+	static int i;
 	if (current_timestamp() - data->last_meal_time > data->args.time_to_die)
 	{
 		sem_wait(data->args.print_sema);
 		put_time(data);
-		printf("philo dies\n");
+		printf("%d dies\n", data->id);
 		exit(0);
 	}
 	else if (data->meals_track >= data->args.meals_count
 		&& data->args.meals_count != -1)
 	{
-		sem_wait(data->args.print_sema);
-		kill(getpid(), SIGINT);
-		kill(getppid(), SIGINT);
-		printf("the simulation ends\n");
+		i++;
+		if (i >= data->args.num_of_philos)
+		{
+			sem_wait(data->args.print_sema);
+			put_time(data);
+			printf("the simulation ends\n");
+			kill(0, SIGINT);
+		}
+		// kill(0, SIGINT);
 	}
 }
 
