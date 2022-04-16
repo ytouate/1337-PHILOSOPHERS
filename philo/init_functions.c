@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 11:54:49 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/12 19:48:35 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/16 03:00:04 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ t_data	**init_philos(t_args	arg)
 	data = put_fork(arg);
 	data = put_next_fork(data, arg);
 	p = malloc(sizeof(pthread_t) * arg.num_of_philos);
+	arg.start_time = current_timestamp();
 	if (!p)
 		return (0);
 	while (i < arg.num_of_philos)

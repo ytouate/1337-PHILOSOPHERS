@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 02:46:54 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/16 02:04:52 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/16 02:54:03 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 typedef struct args_s{
 	int				num_of_philos;
 	int				num_of_forks;
-	long long		time_to_die;
+	int				time_to_die;
 	int				time_to_sleep;
 	int				time_to_eat;
 	int				meals_count;
@@ -45,7 +45,6 @@ typedef struct s_data{
 	int			id;
 	pid_t		pid;
 	t_args		args;
-	long long	start_time;
 	long long	last_meal_time;
 	int			meals_track;
 }t_data;

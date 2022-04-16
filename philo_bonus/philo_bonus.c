@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 01:49:23 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/16 02:07:40 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/16 03:12:04 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,16 @@ void	start_routine(int ac, t_args args)
 	i = -1;
 	philos = malloc(sizeof(t_data *) * args.num_of_philos);
 	pid = malloc(sizeof(pid_t) * args.num_of_philos);
-	args.start_time = current_timestamp();
 	while (++i < args.num_of_philos)
 	{
 		philos[i] = init_needed_data(args, philos, i);
 		pid[i] = fork();
 		if (pid[i] == 0)
 		{
-			philos[i]->start_time = current_timestamp();
 			routine(philos[i]);
 			exit(EXIT_SUCCESS);
 		}
+		usleep(50);
 	}
 	ft_wait(ac, pid, args);
 }
@@ -91,7 +90,6 @@ void	start_routine(int ac, t_args args)
 int	main(int ac, char **av)
 {
 	t_args		args;
-
 	if (check_args(ac, av))
 		if (data_init(&args, ac, av))
 			start_routine(ac, args);
