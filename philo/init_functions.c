@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 11:54:49 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/16 03:00:04 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/16 18:06:50 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ t_data	**init_philos(t_args	arg)
 	t_data			**data;
 	pthread_t		*p;
 
-	i = 0;
+	i = -1;
 	data = put_fork(arg);
 	data = put_next_fork(data, arg);
 	p = malloc(sizeof(pthread_t) * arg.num_of_philos);
-	arg.start_time = current_timestamp();
 	if (!p)
 		return (0);
-	while (i < arg.num_of_philos)
+	arg.start_time = current_timestamp();
+	while (++i < arg.num_of_philos)
 	{
 		data[i] = init_needed_data(data, arg, i);
 		data[i]->args.start_time = current_timestamp();
@@ -64,8 +64,7 @@ t_data	**init_philos(t_args	arg)
 			write(2, "an error occured while creating threads\n", 41);
 			return (0);
 		}
-		i++;
-		usleep(50);
+		usleep(100);
 	}
 	if (ft_end(data) == 0)
 		return (0);

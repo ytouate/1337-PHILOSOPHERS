@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 13:54:01 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/15 14:57:18 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/16 21:27:04 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	ft_end(t_data **data)
 		}
 		if (!check_death(data))
 		{
+			pthread_mutex_lock((*data)->args.print_lock);
 			green();
 			put_time(*data);
 			red();

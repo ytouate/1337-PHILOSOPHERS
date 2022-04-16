@@ -6,39 +6,11 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 01:49:23 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/16 22:23:43 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/16 23:57:00 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-
-void	*ft_end(void *arg)
-{
-	t_data *data;
-	data  = arg;
-	while (1)
-	{
-		if (current_timestamp() - data->last_meal_time > data->args.time_to_die)
-		{
-			sem_wait(data->args.print_sema);
-			put_time(data);
-			printf("%d died\n", data->id);
-			kill(0, SIGINT);
-			exit(0);
-		}
-		else if (data->meals_track >= data->args.meals_count
-			&& data->args.meals_count != -1)
-		{
-			sem_wait(data->args.print_sema);
-			put_time(data);
-			printf("the simulation ends\n");
-			kill(0, SIGINT);
-		}
-	}
-	
-	return NULL;
-	
-}
 
 void	ft_eat(t_data *data)
 {
@@ -60,7 +32,8 @@ void	ft_eat(t_data *data)
 
 void	*routine(void *arg)
 {
-	t_data *data;
+	t_data	*data;
+
 	data = arg;
 	while (1)
 	{
@@ -69,25 +42,7 @@ void	*routine(void *arg)
 		usleep(data->args.time_to_sleep * 1000);
 		print_message(data, THINKING);
 	}
-	return NULL;
-}
-
-void	ft_wait(int ac, pid_t *pid, t_args args)
-{
-	int		i;
-
-	i = -1;
-	if (ac == 6)
-	{
-		while (++i < args.num_of_philos)
-		{
-			if (waitpid(pid[i], NULL, 0) == -1)
-				exit(1);
-		}
-	}
-	else
-		if (waitpid(-1, NULL, 0) == -1)
-			exit(1);
+	return (NULL);
 }
 
 void	start_routine(int ac, t_args args)
@@ -119,15 +74,17 @@ void	start_routine(int ac, t_args args)
 	ft_wait(ac, pid, args);
 }
 
-void set_task(t_data *philo)
+void	set_task(t_data *philo)
 {
-	pthread_t start;
-	pthread_t check;
+	pthread_t	start;
+	pthread_t	check;
+
 	pthread_create(&start, NULL, routine, philo);
 	pthread_create(&check, NULL, ft_end, philo);
 	pthread_join(start, NULL);
 	pthread_join(check, NULL);
 }
+
 int	main(int ac, char **av)
 {
 	t_args		args;

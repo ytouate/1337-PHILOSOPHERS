@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 23:01:37 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/15 23:17:38 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/16 23:57:08 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,31 @@ int	check_args(int ac, char **av)
 		return (0);
 	}
 	return (1);
+}
+
+void	*ft_end(void *arg)
+{
+	t_data	*data;
+
+	data = arg;
+	while (1)
+	{
+		if (current_timestamp() - data->last_meal_time > data->args.time_to_die)
+		{
+			sem_wait(data->args.print_sema);
+			put_time(data);
+			printf("%d died\n", data->id);
+			kill(0, SIGINT);
+			exit(0);
+		}
+		else if (data->meals_track >= data->args.meals_count
+			&& data->args.meals_count != -1)
+		{
+			sem_wait(data->args.print_sema);
+			put_time(data);
+			printf("the simulation ends\n");
+			kill(0, SIGINT);
+		}
+	}
+	return (NULL);
 }

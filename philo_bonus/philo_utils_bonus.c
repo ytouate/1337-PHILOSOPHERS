@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 22:58:13 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/16 22:18:04 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/16 23:56:56 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,22 @@ void	ft_usleep(long long desired_time)
 	end_time = current_timestamp() + desired_time;
 	while (current_timestamp() < end_time)
 		usleep(100);
+}
+
+void	ft_wait(int ac, pid_t *pid, t_args args)
+{
+	int		i;
+
+	i = -1;
+	if (ac == 6)
+	{
+		while (++i < args.num_of_philos)
+		{
+			if (waitpid(pid[i], NULL, 0) == -1)
+				exit(1);
+		}
+	}
+	else
+		if (waitpid(-1, NULL, 0) == -1)
+			exit(1);
 }
