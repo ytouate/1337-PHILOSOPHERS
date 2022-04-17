@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 02:46:54 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/16 23:57:21 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/17 00:01:33 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,6 @@ long long	current_timestamp(void);
 void		put_time(t_data *philo);
 void		set_task(t_data *philo);
 void		*ft_end(void *arg);
+void		ft_wait(int ac, pid_t *pid, t_args args);
 t_data		*init_needed_data(t_args args, t_data **philos, int i);
 #endif

@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 01:49:23 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/16 23:57:00 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/17 00:03:46 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_eat(t_data *data)
 	print_message(data, FORK);
 	data->last_meal_time = current_timestamp();
 	print_message(data, EATING);
-	usleep(data->args.time_to_eat * 1000);
+	ft_usleep(data->args.time_to_eat);
 	data->meals_track += 1;
 	if (sem_post(data->args.forks) == -1)
 		exit(1);
@@ -39,7 +39,7 @@ void	*routine(void *arg)
 	{
 		ft_eat(data);
 		print_message(data, SLEEPING);
-		usleep(data->args.time_to_sleep * 1000);
+		ft_usleep(data->args.time_to_sleep);
 		print_message(data, THINKING);
 	}
 	return (NULL);
