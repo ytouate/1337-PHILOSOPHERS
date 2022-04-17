@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 11:54:49 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/16 18:06:50 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/17 23:47:19 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_data	**put_next_fork(t_data **data, t_args args)
 	return (data);
 }
 
-t_data	**init_philos(t_args	arg)
+void	init_philos(t_args	arg)
 {
 	int				i;
 	t_data			**data;
@@ -53,26 +53,25 @@ t_data	**init_philos(t_args	arg)
 	data = put_next_fork(data, arg);
 	p = malloc(sizeof(pthread_t) * arg.num_of_philos);
 	if (!p)
-		return (0);
+		return ;
 	arg.start_time = current_timestamp();
 	while (++i < arg.num_of_philos)
 	{
 		data[i] = init_needed_data(data, arg, i);
-		data[i]->args.start_time = current_timestamp();
 		if (pthread_create(&p[i], NULL, ft_philosophers, data[i]) == -1)
-		{
-			write(2, "an error occured while creating threads\n", 41);
-			return (0);
-		}
+			return ;
 		usleep(100);
 	}
 	if (ft_end(data) == 0)
-		return (0);
-	return (NULL);
+	{
+		free(p);
+		return ;
+	}
 }
 
 t_data	*init_needed_data(t_data **data, t_args args, int i)
 {
+	data[i]->args.start_time = current_timestamp();
 	data[i]->args = args;
 	data[i]->meals_eaten = 0;
 	data[i]->j = i + 1;

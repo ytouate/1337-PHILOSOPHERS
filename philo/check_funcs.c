@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 13:54:01 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/17 00:56:57 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/17 23:43:49 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,10 @@ int	check_death(t_data **philos)
 	{
 		res = current_timestamp() - philos[i]->last_meal_time;
 		if (philos[i]->last_meal_time != 0)
+		{
 			if (res > (*philos)->args.time_to_die)
 				return (0);
+		}
 		i++;
 	}
 	return (1);
@@ -75,6 +77,7 @@ int	ft_end(t_data **data)
 			put_time(*data);
 			printf("the simulation has ended all philos ate %d meals\n",
 				(*data)->args.meals_count);
+			free(data);
 			return (0);
 		}
 		if (!check_death(data))
@@ -84,6 +87,7 @@ int	ft_end(t_data **data)
 			put_time(*data);
 			red();
 			printf("%d is died\n", (*data)->j);
+			free(data);
 			return (0);
 		}
 	}

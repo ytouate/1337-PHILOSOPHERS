@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 11:42:23 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/13 01:40:21 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/17 22:43:30 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void		print_message(t_data *philo, int act);
 void		*ft_philosophers(void *a);
 t_data		**put_fork(t_args arg);
 t_data		**put_next_fork(t_data **data, t_args args);
-t_data		**init_philos(t_args	arg);
+void		init_philos(t_args	arg);
 t_data		*init_needed_data(t_data **data, t_args args, int i);
 long long	current_timestamp(void);
 void		put_time(t_data *philo);
