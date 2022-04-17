@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 22:58:13 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/16 23:56:56 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/17 01:28:07 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,5 @@ void	ft_wait(int ac, pid_t *pid, t_args args)
 	else
 		if (waitpid(-1, NULL, 0) == -1)
 			exit(1);
+	free(pid);
 }
