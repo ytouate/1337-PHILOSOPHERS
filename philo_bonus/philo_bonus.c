@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 01:49:23 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/17 00:03:46 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/17 00:52:57 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,5 @@ int	main(int ac, char **av)
 	if (check_args(ac, av))
 		if (data_init(&args, ac, av))
 			start_routine(ac, args);
+	system("leaks philo_bonus");
 }

@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 13:54:01 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/16 21:27:04 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/17 00:56:57 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	ft_end(t_data **data)
 			green();
 			put_time(*data);
 			red();
-			printf("philo %d is died\n", (*data)->j);
+			printf("%d is died\n", (*data)->j);
 			return (0);
 		}
 	}

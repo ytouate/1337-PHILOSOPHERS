@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 14:39:50 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/16 23:59:56 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/17 00:57:24 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,22 @@ void	print_message(t_data *philo, int act)
 	if (act == FORK)
 	{
 		put_time(philo);
-		printf("philo %d has taken a fork\n", philo->j);
+		printf("%d has taken a fork\n", philo->j);
 	}
 	else if (act == EATING)
 	{
 		put_time(philo);
-		printf("philo %d is eating\n", philo->j);
+		printf("%d is eating\n", philo->j);
 	}
 	else if (act == SLEEPING)
 	{
 		put_time(philo);
-		printf("philo %d is sleeping\n", philo->j);
+		printf("%d is sleeping\n", philo->j);
 	}
 	if (act == THINKING)
 	{
 		put_time(philo);
-		printf("philo %d is thinking\n", philo->j);
+		printf("%d is thinking\n", philo->j);
 	}
 	pthread_mutex_unlock(philo->args.print_lock);
 }
