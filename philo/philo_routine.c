@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/09 14:41:37 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/16 17:41:32 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/17 00:10:22 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	*ft_philosophers(void *a)
 		print_message(data, SLEEPING);
 		ft_usleep(data->args.time_to_sleep);
 		print_message(data, THINKING);
+		ft_usleep(5 * 1000);
 	}
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 23:01:37 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/16 23:57:08 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/17 00:51:17 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,7 @@ void	*ft_end(void *arg)
 			sem_wait(data->args.print_sema);
 			put_time(data);
 			printf("%d died\n", data->id);
-			kill(0, SIGINT);
-			exit(0);
+			exit(kill(0, SIGINT));
 		}
 		else if (data->meals_track >= data->args.meals_count
 			&& data->args.meals_count != -1)
@@ -107,7 +106,7 @@ void	*ft_end(void *arg)
 			sem_wait(data->args.print_sema);
 			put_time(data);
 			printf("the simulation ends\n");
-			kill(0, SIGINT);
+			exit(kill(0, SIGINT));
 		}
 	}
 	return (NULL);
