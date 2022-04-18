@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 23:01:37 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/17 00:51:17 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/18 14:04:42 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	*ft_end(void *arg)
 			printf("%d died\n", data->id);
 			exit(kill(0, SIGINT));
 		}
-		else if (data->meals_track >= data->args.meals_count
+		else if (data->meals_track > data->args.meals_count
 			&& data->args.meals_count != -1)
 		{
 			sem_wait(data->args.print_sema);
