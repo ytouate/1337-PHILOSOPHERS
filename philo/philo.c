@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 11:44:37 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/17 23:43:23 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/18 15:13:11 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ int	main(int ac, char **av)
 			if (data.meals_count == 0)
 				return (0);
 			init_philos(data);
-			system("leaks philo");
 		}
 	}
 }

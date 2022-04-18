@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 02:46:54 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/17 00:01:33 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/18 15:06:10 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct args_s{
 	long long		start_time;
 	sem_t			*print_sema;
 	sem_t			*forks;
+	int				flag;
 }t_args;
 
 typedef struct s_data{
