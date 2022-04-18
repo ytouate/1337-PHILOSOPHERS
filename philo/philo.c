@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 11:44:37 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/18 15:13:11 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/18 23:22:44 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ int	data_init(t_args *data, int ac, char **av)
 		data->meals_count = ft_atoi(av[5]);
 	else
 		data->meals_count = -1;
-	if (data->num_of_forks == 0)
+	if (data->num_of_forks == 0 || data->time_to_die < 0
+		|| data->time_to_eat < 0 || data->time_to_sleep < 0)
 	{
 		write(2, "Invalid Arguments\n", 19);
 		return (0);
