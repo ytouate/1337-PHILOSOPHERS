@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 23:15:35 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/18 23:26:52 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/18 23:43:12 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int	data_init(t_args *data, int ac, char **av)
 	if (data->num_of_forks == 0 || data->time_to_die < 0
 		|| data->time_to_sleep < 0
 		|| data->time_to_eat < 0)
-	{
 		exit(write(2, "Invalid Arguments\n", 19));
-	}
+	if (data->meals_count == 0)
+		exit(0);
 	return (1);
 }
 
