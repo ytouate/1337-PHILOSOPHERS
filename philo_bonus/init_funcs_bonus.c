@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 23:15:35 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/17 01:26:25 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/18 23:25:06 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,11 @@ int	data_init(t_args *data, int ac, char **av)
 	else
 		data->meals_count = -1;
 	data->forks = sem_open("fork", O_CREAT, 644, data->num_of_forks);
-	if (data->num_of_forks == 0 || data->time_to_die == 0
-		|| data->time_to_sleep == 0
-		|| data->time_to_eat == 0 || data->meals_count == 0)
+	if (data->num_of_forks == 0 || data->time_to_die < 0
+		|| data->time_to_sleep < 0
+		|| data->time_to_eat < 0 || data->meals_count < 0)
 	{
-		write(2, "Invalid Arguments\n", 19);
-		return (0);
+		exit(write(2, "Invalid Arguments\n", 19));
 	}
 	return (1);
 }
