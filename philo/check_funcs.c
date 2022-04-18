@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 13:54:01 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/17 23:43:49 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/18 23:28:57 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,7 @@ int	check_death(t_data **philos)
 
 	num = philos[0]->args.num_of_philos;
 	if (num == 1)
-	{
-		usleep((*philos)->args.time_to_die * 1000);
-		return (0);
-	}
+		return (usleep((*philos)->args.time_to_die * 1000));
 	i = 0;
 	while (i < num)
 	{
