@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 11:44:37 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/18 23:22:44 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/19 16:36:02 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	check_args(int ac, char **av)
 int	data_init(t_args *data, int ac, char **av)
 {
 	data->print_lock = malloc (sizeof(pthread_mutex_t));
+	if (!data->print_lock)
+		return (0);
 	pthread_mutex_init(data->print_lock, NULL);
 	data->num_of_philos = ft_atoi(av[1]);
 	data->num_of_forks = data->num_of_philos;

@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 11:54:49 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/17 23:47:19 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/19 16:34:52 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,17 @@ t_data	**put_fork(t_args arg)
 	t_data	**philos;
 
 	philos = malloc(sizeof(t_data *) * arg.num_of_philos);
+	if (!philos)
+		return (NULL);
 	i = 0;
 	while (i < arg.num_of_philos)
 	{
 		philos[i] = malloc(sizeof(t_data));
 		philos[i]->fork = malloc(sizeof(pthread_mutex_t));
-		pthread_mutex_init(philos[i]->fork, NULL);
+		if (!(philos[i] || philos[i]->fork))
+			return (NULL);
+		if (pthread_mutex_init(philos[i]->fork, NULL) != 0)
+			return (NULL);
 		i++;
 	}
 	return (philos);

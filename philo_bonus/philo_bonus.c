@@ -6,7 +6,7 @@
 /*   By: ytouate <ytouate@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 01:49:23 by ytouate           #+#    #+#             */
-/*   Updated: 2022/04/18 14:23:25 by ytouate          ###   ########.fr       */
+/*   Updated: 2022/04/19 16:38:46 by ytouate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,14 @@ void	set_task(t_data *philo)
 	pthread_t	start;
 	pthread_t	check;
 
-	pthread_create(&start, NULL, routine, philo);
-	pthread_create(&check, NULL, ft_end, philo);
-	pthread_join(start, NULL);
-	pthread_join(check, NULL);
+	if (pthread_create(&start, NULL, routine, philo) != 0)
+		exit(0);
+	if (pthread_create(&check, NULL, ft_end, philo) != 0)
+		exit(1);
+	if (pthread_join(start, NULL) != 0)
+		exit(1);
+	if (pthread_join(check, NULL) != 0)
+		exit(1);
 }
 
 int	main(int ac, char **av)
